@@ -1,10 +1,10 @@
 {
   "name": "toast-mcp-server",
   "version": "1.0.0",
-  "description": "MCP server for Toast API - 2026 Complete Version",
+  "description": "MCP server for Toast POS - Restaurant operations with 8 AI-ready tools",
   "type": "module",
   "main": "dist/index.js",
-  "author": "MCPEngine <hello@mcpengage.com>",
+  "author": "MCPEngage <hello@mcpengage.com>",
   "license": "MIT",
   "repository": {
     "type": "git",
