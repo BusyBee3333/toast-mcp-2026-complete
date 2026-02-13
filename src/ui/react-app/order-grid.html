@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Grid - Toast MCP</title>
+  <script src="shared.js"></script>
+  <style id="theme"></style>
+</head>
+<body>
+  <div class="app-container">
+    <a href="index.html" class="back-link">← Back to Dashboard</a>
+    <header>
+      <h1>📊 Order Grid</h1>
+      <p class="subtitle">Multi-order view with filtering and bulk actions</p>
+    </header>
+    <div class="toolbar">
+      <input type="search" id="search" placeholder="Search orders..." class="search-box">
+      <select id="sourceFilter">
+        <option value="all">All Sources</option>
+        <option value="POS">POS</option>
+        <option value="ONLINE">Online</option>
+        <option value="DELIVERY">Delivery</option>
+      </select>
+      <button onclick="exportData()">Export CSV</button>
+      <button onclick="bulkActions()" class="secondary">Bulk Actions</button>
+    </div>
+    <div class="card">
+      <table id="ordersTable">
+        <thead>
+          <tr>
+            <th><input type="checkbox" id="selectAll"></th>
+            <th>Check #</th>
+            <th>Time</th>
+            <th>Source</th>
+            <th>Items</th>
+            <th>Total</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+    </div>
+  </div>
+  <script>
+    document.getElementById('theme').textContent = window.ToastUI.DARK_THEME;
+    const orders = Array.from({length: 50}, (_, i) => ({
+      guid: `order-${i}`,
+      checkNumber: `#${1000 + i}`,
+      openedDate: new Date(Date.now() - i * 3600000).toISOString(),
+      source: ['POS', 'ONLINE', 'DELIVERY'][i % 3],
+      items: Math.floor(Math.random() * 5) + 1,
+      total: Math.floor(Math.random() * 10000) + 1000,
+      status: ['Open', 'Closed', 'Voided'][Math.floor(Math.random() * 3)]
+    }));
+
+    function renderTable() {
+      const tbody = document.getElementById('tableBody');
+      tbody.innerHTML = orders.map(o => `
+        <tr>
+          <td><input type="checkbox" value="${o.guid}"></td>
+          <td><strong>${o.checkNumber}</strong></td>
+          <td>${window.ToastUI.formatDate(o.openedDate)}</td>
+          <td><span class="badge badge-default">${o.source}</span></td>
+          <td>${o.items} items</td>
+          <td>${window.ToastUI.formatCurrency(o.total)}</td>
+          <td><span class="badge badge-${o.status === 'Open' ? 'warning' : o.status === 'Closed' ? 'success' : 'error'}">${o.status}</span></td>
+        </tr>
+      `).join('');
+    }
+
+    function exportData() { alert('Export feature (demo mode)'); }
+    function bulkActions() { alert('Bulk actions (demo mode)'); }
+    renderTable();
+  </script>
+</body>
+</html>

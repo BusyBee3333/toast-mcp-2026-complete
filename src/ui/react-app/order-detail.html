@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Detail - Toast MCP</title>
+  <script src="shared.js"></script>
+  <style id="theme"></style>
+</head>
+<body>
+  <div class="app-container">
+    <a href="order-dashboard.html" class="back-link">← Back to Orders</a>
+    
+    <header>
+      <h1>📋 Order Detail</h1>
+      <p class="subtitle">Complete order information and history</p>
+    </header>
+
+    <div class="grid grid-2">
+      <div class="card">
+        <h3>Order Information</h3>
+        <table>
+          <tr><td><strong>Order GUID:</strong></td><td id="orderGuid">-</td></tr>
+          <tr><td><strong>Opened:</strong></td><td id="openedDate">-</td></tr>
+          <tr><td><strong>Closed:</strong></td><td id="closedDate">-</td></tr>
+          <tr><td><strong>Source:</strong></td><td id="source">-</td></tr>
+          <tr><td><strong>Guests:</strong></td><td id="guests">-</td></tr>
+          <tr><td><strong>Status:</strong></td><td id="status">-</td></tr>
+        </table>
+      </div>
+
+      <div class="card">
+        <h3>Payment Summary</h3>
+        <div class="stat-card">
+          <div class="stat-value" id="total">$0</div>
+          <div class="stat-label">Total Amount</div>
+        </div>
+        <div style="margin-top: 15px;">
+          <button onclick="voidOrder()">Void Order</button>
+          <button onclick="refundOrder()" class="secondary">Process Refund</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Items</h3>
+      <div id="itemsContent"></div>
+    </div>
+
+    <div class="card">
+      <h3>Payments</h3>
+      <div id="paymentsContent"></div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('theme').textContent = window.ToastUI.DARK_THEME;
+
+    const sampleOrder = {
+      guid: 'order-001',
+      openedDate: new Date().toISOString(),
+      closedDate: null,
+      source: 'ONLINE',
+      numberOfGuests: 2,
+      voided: false,
+      checks: [{
+        totalAmount: 4599,
+        taxAmount: 459,
+        selections: [
+          { displayName: 'Burger', quantity: 2, price: 2598, modifiers: [{displayName: 'Extra Cheese', price: 100}] },
+          { displayName: 'Fries', quantity: 2, price: 1198 }
+        ],
+        payments: [
+          { type: 'CREDIT', amount: 4599, tipAmount: 920, last4Digits: '4242' }
+        ]
+      }]
+    };
+
+    function renderOrder() {
+      document.getElementById('orderGuid').textContent = sampleOrder.guid;
+      document.getElementById('openedDate').textContent = window.ToastUI.formatDate(sampleOrder.openedDate);
+      document.getElementById('closedDate').textContent = sampleOrder.closedDate ? window.ToastUI.formatDate(sampleOrder.closedDate) : 'Open';
+      document.getElementById('source').textContent = sampleOrder.source;
+      document.getElementById('guests').textContent = sampleOrder.numberOfGuests || '-';
+      document.getElementById('status').innerHTML = sampleOrder.voided 
+        ? '<span class="badge badge-error">Voided</span>'
+        : sampleOrder.closedDate 
+        ? '<span class="badge badge-success">Closed</span>'
+        : '<span class="badge badge-warning">Open</span>';
+      
+      const total = sampleOrder.checks.reduce((sum, c) => sum + c.totalAmount, 0);
+      document.getElementById('total').textContent = window.ToastUI.formatCurrency(total);
+
+      // Render items
+      const itemsHtml = `
+        <table>
+          <thead>
+            <tr><th>Item</th><th>Qty</th><th>Price</th><th>Modifiers</th></tr>
+          </thead>
+          <tbody>
+            ${sampleOrder.checks.flatMap(c => c.selections.map(s => `
+              <tr>
+                <td>${s.displayName}</td>
+                <td>${s.quantity}</td>
+                <td>${window.ToastUI.formatCurrency(s.price)}</td>
+                <td>${s.modifiers?.map(m => m.displayName).join(', ') || '-'}</td>
+              </tr>
+            `)).join('')}
+          </tbody>
+        </table>
+      `;
+      document.getElementById('itemsContent').innerHTML = itemsHtml;
+
+      // Render payments
+      const paymentsHtml = `
+        <table>
+          <thead>
+            <tr><th>Type</th><th>Amount</th><th>Tip</th><th>Details</th></tr>
+          </thead>
+          <tbody>
+            ${sampleOrder.checks.flatMap(c => c.payments?.map(p => `
+              <tr>
+                <td><span class="badge badge-info">${p.type}</span></td>
+                <td>${window.ToastUI.formatCurrency(p.amount)}</td>
+                <td>${window.ToastUI.formatCurrency(p.tipAmount || 0)}</td>
+                <td>${p.last4Digits ? `**** ${p.last4Digits}` : '-'}</td>
+              </tr>
+            `) || []).join('')}
+          </tbody>
+        </table>
+      `;
+      document.getElementById('paymentsContent').innerHTML = paymentsHtml;
+    }
+
+    function voidOrder() {
+      if (confirm('Are you sure you want to void this order?')) {
+        alert('Order voided (demo mode)');
+      }
+    }
+
+    function refundOrder() {
+      if (confirm('Process refund for this order?')) {
+        alert('Refund processed (demo mode)');
+      }
+    }
+
+    renderOrder();
+  </script>
+</body>
+</html>

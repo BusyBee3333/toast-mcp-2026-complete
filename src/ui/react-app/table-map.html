@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Table Map - Toast MCP</title>
+  <script src="shared.js"></script>
+  <style id="theme"></style>
+</head>
+<body>
+  <div class="app-container">
+    <a href="index.html" class="back-link">← Back to Dashboard</a>
+    <header>
+      <h1>🗺️ Table Map</h1>
+      <p class="subtitle">Visual floor plan with table status</p>
+    </header>
+    <div class="card">
+      <h2>Table Map Interface</h2>
+      <div class="grid grid-3">
+        <div class="stat-card">
+          <div class="stat-value">0</div>
+          <div class="stat-label">Total Items</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">$0</div>
+          <div class="stat-label">Value</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">0</div>
+          <div class="stat-label">Active</div>
+        </div>
+      </div>
+      <div style="margin-top: 20px;">
+        <p style="color: #888;">Client-side demo interface for Table Map. Connect to Toast API for live data.</p>
+      </div>
+    </div>
+  </div>
+  <script>
+    document.getElementById('theme').textContent = window.ToastUI.DARK_THEME;
+  </script>
+</body>
+</html>

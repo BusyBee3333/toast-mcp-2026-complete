@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Toast MCP - Dashboard</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: #0f0f0f;
+      color: #e0e0e0;
+      line-height: 1.6;
+    }
+    
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    header {
+      background: #1a1a1a;
+      border-bottom: 2px solid #2d2d2d;
+      padding: 20px 0;
+      margin-bottom: 30px;
+    }
+    
+    h1 {
+      color: #00bfa5;
+      font-size: 2rem;
+      font-weight: 700;
+    }
+    
+    .subtitle {
+      color: #888;
+      font-size: 0.9rem;
+      margin-top: 5px;
+    }
+    
+    .apps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+      margin-top: 30px;
+    }
+    
+    .app-card {
+      background: #1a1a1a;
+      border: 1px solid #2d2d2d;
+      border-radius: 8px;
+      padding: 24px;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      text-decoration: none;
+      display: block;
+    }
+    
+    .app-card:hover {
+      border-color: #00bfa5;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 191, 165, 0.1);
+    }
+    
+    .app-card h3 {
+      color: #00bfa5;
+      font-size: 1.3rem;
+      margin-bottom: 10px;
+    }
+    
+    .app-card p {
+      color: #999;
+      font-size: 0.9rem;
+    }
+    
+    .category {
+      margin-top: 40px;
+    }
+    
+    .category h2 {
+      color: #fff;
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+      border-bottom: 2px solid #2d2d2d;
+      padding-bottom: 10px;
+    }
+    
+    .badge {
+      display: inline-block;
+      background: #2d2d2d;
+      color: #00bfa5;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      margin-top: 10px;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>🍽️ Toast MCP Dashboard</h1>
+      <p class="subtitle">Complete restaurant management platform with 18 specialized apps</p>
+    </div>
+  </header>
+  
+  <div class="container">
+    <div class="category">
+      <h2>📦 Orders & Service</h2>
+      <div class="apps-grid">
+        <a href="order-dashboard.html" class="app-card">
+          <h3>Order Dashboard</h3>
+          <p>Real-time order monitoring and status tracking</p>
+          <span class="badge">LIVE</span>
+        </a>
+        <a href="order-detail.html" class="app-card">
+          <h3>Order Detail</h3>
+          <p>Deep dive into individual orders with full history</p>
+          <span class="badge">ANALYTICS</span>
+        </a>
+        <a href="order-grid.html" class="app-card">
+          <h3>Order Grid</h3>
+          <p>Multi-order view with filtering and bulk actions</p>
+          <span class="badge">PRODUCTIVITY</span>
+        </a>
+        <a href="table-map.html" class="app-card">
+          <h3>Table Map</h3>
+          <p>Visual floor plan with table status and assignments</p>
+          <span class="badge">VISUAL</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="category">
+      <h2>🍔 Menu Management</h2>
+      <div class="apps-grid">
+        <a href="menu-manager.html" class="app-card">
+          <h3>Menu Manager</h3>
+          <p>Full menu editing, pricing, and 86 management</p>
+          <span class="badge">ADMIN</span>
+        </a>
+        <a href="menu-item-detail.html" class="app-card">
+          <h3>Menu Item Detail</h3>
+          <p>Detailed item configuration and modifiers</p>
+          <span class="badge">CONFIGURATION</span>
+        </a>
+        <a href="menu-performance.html" class="app-card">
+          <h3>Menu Performance</h3>
+          <p>Sales analytics and item profitability tracking</p>
+          <span class="badge">ANALYTICS</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="category">
+      <h2>👥 Staff & Labor</h2>
+      <div class="apps-grid">
+        <a href="employee-dashboard.html" class="app-card">
+          <h3>Employee Dashboard</h3>
+          <p>Staff directory and performance overview</p>
+          <span class="badge">MANAGEMENT</span>
+        </a>
+        <a href="employee-schedule.html" class="app-card">
+          <h3>Employee Schedule</h3>
+          <p>Shift scheduling and time-off management</p>
+          <span class="badge">SCHEDULING</span>
+        </a>
+        <a href="labor-dashboard.html" class="app-card">
+          <h3>Labor Dashboard</h3>
+          <p>Real-time labor cost tracking and forecasting</p>
+          <span class="badge">ANALYTICS</span>
+        </a>
+        <a href="tip-summary.html" class="app-card">
+          <h3>Tip Summary</h3>
+          <p>Tip distribution and employee earnings</p>
+          <span class="badge">PAYROLL</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="category">
+      <h2>💰 Payments & Finance</h2>
+      <div class="apps-grid">
+        <a href="payment-history.html" class="app-card">
+          <h3>Payment History</h3>
+          <p>Transaction log with search and filtering</p>
+          <span class="badge">FINANCE</span>
+        </a>
+        <a href="sales-dashboard.html" class="app-card">
+          <h3>Sales Dashboard</h3>
+          <p>Comprehensive sales metrics and trends</p>
+          <span class="badge">ANALYTICS</span>
+        </a>
+        <a href="revenue-by-hour.html" class="app-card">
+          <h3>Revenue by Hour</h3>
+          <p>Hourly sales breakdown and peak time analysis</p>
+          <span class="badge">INSIGHTS</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="category">
+      <h2>📊 Inventory & Operations</h2>
+      <div class="apps-grid">
+        <a href="inventory-tracker.html" class="app-card">
+          <h3>Inventory Tracker</h3>
+          <p>Stock levels, 86\'d items, and reorder alerts</p>
+          <span class="badge">INVENTORY</span>
+        </a>
+        <a href="restaurant-overview.html" class="app-card">
+          <h3>Restaurant Overview</h3>
+          <p>System configuration and location settings</p>
+          <span class="badge">SETTINGS</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="category">
+      <h2>👤 Customer Management</h2>
+      <div class="apps-grid">
+        <a href="customer-detail.html" class="app-card">
+          <h3>Customer Detail</h3>
+          <p>Customer profiles and order history</p>
+          <span class="badge">CRM</span>
+        </a>
+        <a href="customer-loyalty.html" class="app-card">
+          <h3>Customer Loyalty</h3>
+          <p>Loyalty program management and rewards tracking</p>
+          <span class="badge">MARKETING</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

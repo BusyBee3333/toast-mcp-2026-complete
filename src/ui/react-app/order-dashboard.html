@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Dashboard - Toast MCP</title>
+  <script src="shared.js"></script>
+  <style id="theme"></style>
+</head>
+<body>
+  <div class="app-container">
+    <a href="index.html" class="back-link">← Back to Dashboard</a>
+    
+    <header>
+      <h1>📦 Order Dashboard</h1>
+      <p class="subtitle">Real-time order monitoring and status tracking</p>
+    </header>
+
+    <div class="toolbar">
+      <select id="statusFilter">
+        <option value="all">All Orders</option>
+        <option value="open">Open</option>
+        <option value="closed">Closed</option>
+        <option value="voided">Voided</option>
+      </select>
+      <input type="date" id="dateFilter" class="search-box">
+      <button onclick="refreshOrders()">Refresh</button>
+    </div>
+
+    <div class="grid grid-4">
+      <div class="stat-card">
+        <div class="stat-value" id="totalOrders">0</div>
+        <div class="stat-label">Total Orders</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="openOrders">0</div>
+        <div class="stat-label">Open Orders</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="totalSales">$0</div>
+        <div class="stat-label">Total Sales</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="avgCheck">$0</div>
+        <div class="stat-label">Avg Check</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Active Orders</h2>
+      <div id="ordersContent">
+        <div class="loading">Loading orders...</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Apply dark theme
+    document.getElementById('theme').textContent = window.ToastUI.DARK_THEME;
+
+    // Initialize state
+    const state = new window.ToastUI.AppState();
+    const today = window.ToastUI.getTodayBusinessDate();
+    document.getElementById('dateFilter').valueAsDate = new Date();
+
+    // Sample data (in production, this would fetch from API)
+    const sampleOrders = [
+      {
+        guid: 'order-001',
+        openedDate: new Date().toISOString(),
+        closedDate: null,
+        voided: false,
+        source: 'ONLINE',
+        checks: [{
+          displayNumber: '#1001',
+          totalAmount: 4599,
+          paymentStatus: 'OPEN',
+          selections: [
+            { displayName: 'Burger', quantity: 2, price: 1299 },
+            { displayName: 'Fries', quantity: 2, price: 599 }
+          ]
+        }]
+      },
+      {
+        guid: 'order-002',
+        openedDate: new Date(Date.now() - 3600000).toISOString(),
+        closedDate: new Date().toISOString(),
+        voided: false,
+        source: 'POS',
+        checks: [{
+          displayNumber: '#1002',
+          totalAmount: 7899,
+          paymentStatus: 'PAID',
+          selections: [
+            { displayName: 'Steak', quantity: 1, price: 6899 },
+            { displayName: 'Salad', quantity: 1, price: 1000 }
+          ]
+        }]
+      },
+      {
+        guid: 'order-003',
+        openedDate: new Date(Date.now() - 1800000).toISOString(),
+        closedDate: null,
+        voided: false,
+        source: 'DELIVERY',
+        checks: [{
+          displayNumber: '#1003',
+          totalAmount: 3299,
+          paymentStatus: 'OPEN',
+          selections: [
+            { displayName: 'Pizza', quantity: 1, price: 2999 },
+            { displayName: 'Soda', quantity: 1, price: 300 }
+          ]
+        }]
+      }
+    ];
+
+    state.set('orders', sampleOrders);
+
+    function renderOrders() {
+      const orders = state.get('orders') || [];
+      const filter = document.getElementById('statusFilter').value;
+      
+      let filtered = orders;
+      if (filter === 'open') {
+        filtered = orders.filter(o => !o.closedDate && !o.voided);
+      } else if (filter === 'closed') {
+        filtered = orders.filter(o => o.closedDate && !o.voided);
+      } else if (filter === 'voided') {
+        filtered = orders.filter(o => o.voided);
+      }
+
+      // Update stats
+      document.getElementById('totalOrders').textContent = orders.length;
+      document.getElementById('openOrders').textContent = orders.filter(o => !o.closedDate && !o.voided).length;
+      
+      const totalSales = orders.reduce((sum, o) => {
+        if (o.voided) return sum;
+        return sum + o.checks.reduce((s, c) => s + c.totalAmount, 0);
+      }, 0);
+      document.getElementById('totalSales').textContent = window.ToastUI.formatCurrency(totalSales);
+      document.getElementById('avgCheck').textContent = orders.length > 0 
+        ? window.ToastUI.formatCurrency(totalSales / orders.length)
+        : '$0';
+
+      // Render orders table
+      const html = `
+        <table>
+          <thead>
+            <tr>
+              <th>Check #</th>
+              <th>Time</th>
+              <th>Source</th>
+              <th>Items</th>
+              <th>Total</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${filtered.map(order => order.checks.map(check => `
+              <tr>
+                <td><strong>${check.displayNumber}</strong></td>
+                <td>${window.ToastUI.formatDate(order.openedDate)}</td>
+                <td><span class="badge badge-default">${order.source}</span></td>
+                <td>${check.selections.map(s => `${s.displayName} (${s.quantity})`).join(', ')}</td>
+                <td><strong>${window.ToastUI.formatCurrency(check.totalAmount)}</strong></td>
+                <td>
+                  ${order.voided ? '<span class="badge badge-error">Voided</span>' :
+                    order.closedDate ? '<span class="badge badge-success">Closed</span>' :
+                    '<span class="badge badge-warning">Open</span>'}
+                </td>
+                <td>
+                  <button onclick="viewOrder('${order.guid}')" class="secondary">View</button>
+                </td>
+              </tr>
+            `).join('')).join('')}
+          </tbody>
+        </table>
+      `;
+
+      document.getElementById('ordersContent').innerHTML = html;
+    }
+
+    function viewOrder(guid) {
+      window.location.href = `order-detail.html?id=${guid}`;
+    }
+
+    function refreshOrders() {
+      renderOrders();
+    }
+
+    // Initial render
+    state.subscribe('orders', renderOrders);
+    renderOrders();
+
+    // Listen to filter changes
+    document.getElementById('statusFilter').addEventListener('change', renderOrders);
+  </script>
+</body>
+</html>

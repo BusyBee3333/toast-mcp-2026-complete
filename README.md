@@ -1,223 +1,317 @@
-> **🚀 Don't want to self-host?** [Join the waitlist for our fully managed solution →](https://mcpengage.com/toast)
-> 
-> Zero setup. Zero maintenance. Just connect and automate.
+# Toast MCP Server
 
----
+Complete Model Context Protocol (MCP) server for Toast restaurant POS and management platform integration.
 
-# 🍞 Toast MCP Server — Restaurant Operations on Autopilot
+## 🚀 Features
 
-## 💡 What This Unlocks
+### 50+ Tools Across 10 Categories
 
-**This MCP server gives AI direct access to your Toast POS system.** Stop manually pulling reports, updating menu items, or tracking labor costs. Just tell Claude what you need, and it happens.
+1. **Orders (12 tools)** - Complete order lifecycle management
+   - Get, list, create, void orders
+   - Search by customer, business date
+   - Add/void selections, apply discounts
+   - Update promised times, track status
 
-### 🎯 Toast-Specific Power Moves
+2. **Menus (11 tools)** - Full menu and item management
+   - List/get menus, groups, items
+   - Search items, update pricing
+   - 86 management (out of stock)
+   - Bulk operations
 
-| Use Case | What It Does | Tools Used |
-|----------|-------------|-----------|
-| **"86" items instantly** | Mark menu items out of stock across all terminals | `list_menu_items`, `update_menu_item` |
-| **Daily sales reconciliation** | Pull all orders + payments for a business day | `list_orders`, `get_order`, `list_checks` |
-| **Labor cost analysis** | Compare actual hours worked vs. scheduled shifts | `list_employees`, `get_labor` |
-| **Order investigation** | Find specific orders by time/amount, void if needed | `list_orders`, `get_order`, `void_check` |
-| **Menu sync verification** | Audit menu items against your master menu list | `list_menu_items` |
+3. **Employees (9 tools)** - Staff management
+   - Employee CRUD operations
+   - Job position management
+   - Search and filtering
+   - Time entry tracking
 
-### 🔗 The Real Power: Natural Language Restaurant Ops
+4. **Labor (6 tools)** - Workforce analytics
+   - Shift management
+   - Active shift tracking
+   - Labor reports and summaries
+   - Employee hours calculation
 
-Instead of clicking through Toast dashboards:
+5. **Restaurant (9 tools)** - Configuration and settings
+   - Restaurant info and access
+   - Tables and service areas
+   - Dining options, revenue centers
+   - Online ordering and delivery settings
 
-- *"Show me all orders from last night's dinner rush (5-9pm)"*
-- *"Mark the grilled salmon as 86'd"*
-- *"What's our total labor cost for this week?"*
-- *"Find the order with the $127 total from yesterday"*
-- *"Void check #4521 — customer never showed up"*
+6. **Payments (6 tools)** - Transaction management
+   - Payment CRUD operations
+   - Refunds and voids
+   - Payment summaries by type
 
-## 📦 What's Inside
+7. **Inventory (5 tools)** - Stock management
+   - Stock level tracking
+   - Low stock alerts
+   - Quantity updates
+   - Bulk operations
 
-**8 restaurant-focused API tools** covering Toast's core POS functionality:
+8. **Customers (4 tools)** - Customer relationship management
+   - Customer search and profiles
+   - Order history
+   - Loyalty program integration
+   - Top customers analysis
 
-- **Orders:** `list_orders`, `get_order` — Sales data, items, modifiers, payments
-- **Checks:** `list_checks`, `void_check` — Tab management and corrections
-- **Menu:** `list_menu_items`, `update_menu_item` — Inventory & 86'd items
-- **Labor:** `list_employees`, `get_labor` — Staff scheduling & time tracking
+9. **Reporting (6 tools)** - Analytics and insights
+   - Sales summaries
+   - Hourly breakdown
+   - Item sales reports
+   - Payment type, discount, and void reports
 
-All with automatic OAuth2 authentication, proper error handling, and TypeScript types.
+10. **Cash (8 tools)** - Cash management
+    - Cash drawer tracking
+    - Paid in/out entries
+    - Deposit recording
+    - Drawer summaries
 
-## 🚀 Quick Start
+### 18 React Apps (Client-Side UI)
 
-### Option 1: Claude Desktop (Recommended)
+**Orders & Service:**
+- Order Dashboard - Real-time monitoring
+- Order Detail - Deep order inspection
+- Order Grid - Multi-order management
+- Table Map - Visual floor plan
 
-1. **Clone and build:**
-   ```bash
-   git clone https://github.com/BusyBee3333/Toast-MCP-2026-Complete.git
-   cd toast-mcp-2026-complete
-   npm install
-   npm run build
-   ```
+**Menu Management:**
+- Menu Manager - Full menu editing
+- Menu Item Detail - Item configuration
+- Menu Performance - Sales analytics
 
-2. **Get your Toast API credentials:**
-   - Log into [Toast Developer Portal](https://dev.toasttab.com/)
-   - Create a new integration (Restaurant Management API)
-   - Save your **Client ID**, **Client Secret**, and **Restaurant GUID**
+**Staff & Labor:**
+- Employee Dashboard - Staff directory
+- Employee Schedule - Shift planning
+- Labor Dashboard - Cost tracking
+- Tip Summary - Earnings distribution
 
-3. **Configure Claude Desktop:**
-   
-   **macOS:** `~/Library/Application Support/Claude/claude_desktop_config.json`  
-   **Windows:** `%APPDATA%\Claude\claude_desktop_config.json`
+**Payments & Finance:**
+- Payment History - Transaction log
+- Sales Dashboard - Comprehensive metrics
+- Revenue by Hour - Hourly analysis
 
-   ```json
-   {
-     "mcpServers": {
-       "toast": {
-         "command": "node",
-         "args": ["/ABSOLUTE/PATH/TO/toast-mcp-2026-complete/dist/index.js"],
-         "env": {
-           "TOAST_CLIENT_ID": "your-client-id",
-           "TOAST_CLIENT_SECRET": "your-client-secret",
-           "TOAST_RESTAURANT_GUID": "your-restaurant-guid"
-         }
-       }
-     }
-   }
-   ```
+**Inventory & Operations:**
+- Inventory Tracker - Stock management
+- Restaurant Overview - System config
 
-4. **Restart Claude Desktop** — you'll see 8 Toast tools appear in the MCP section
+**Customer Management:**
+- Customer Detail - Profiles and history
+- Customer Loyalty - Rewards tracking
 
-### Option 2: Local Development
+## 📦 Installation
 
 ```bash
-cp .env.example .env
-# Edit .env with your Toast credentials
-npm run dev
+npm install @busybee3333/toast-mcp-server
 ```
+
+Or clone and build locally:
+
+```bash
+git clone https://github.com/BusyBee3333/mcpengine.git
+cd mcpengine/servers/toast
+npm install
+npm run build
+```
+
+## 🔧 Configuration
+
+Set required environment variables:
+
+```bash
+export TOAST_CLIENT_ID="your_client_id"
+export TOAST_CLIENT_SECRET="your_client_secret"
+export TOAST_RESTAURANT_GUID="your_restaurant_guid"  # Optional
+export TOAST_ENVIRONMENT="production"  # or "sandbox"
+```
+
+## 🎯 Usage
+
+### Stdio Mode (MCP Integration)
+
+```bash
+toast-mcp-server
+```
+
+Or via npx:
+
+```bash
+npx @busybee3333/toast-mcp-server
+```
+
+### HTTP Mode (Web UI + API)
+
+```bash
+TOAST_MCP_MODE=http TOAST_MCP_PORT=3000 toast-mcp-server
+```
+
+Access UI at: `http://localhost:3000/apps/`
+
+### Claude Desktop Integration
+
+Add to your Claude Desktop config (`~/Library/Application Support/Claude/claude_desktop_config.json`):
+
+```json
+{
+  "mcpServers": {
+    "toast": {
+      "command": "npx",
+      "args": [
+        "@busybee3333/toast-mcp-server"
+      ],
+      "env": {
+        "TOAST_CLIENT_ID": "your_client_id",
+        "TOAST_CLIENT_SECRET": "your_client_secret",
+        "TOAST_RESTAURANT_GUID": "your_restaurant_guid",
+        "TOAST_ENVIRONMENT": "production"
+      }
+    }
+  }
+}
+```
+
+## 🛠️ Tool Examples
+
+### Get Order
+```json
+{
+  "name": "toast_get_order",
+  "arguments": {
+    "orderGuid": "550e8400-e29b-41d4-a716-446655440000"
+  }
+}
+```
+
+### List Orders for Business Date
+```json
+{
+  "name": "toast_list_orders",
+  "arguments": {
+    "businessDate": 20240215
+  }
+}
+```
+
+### Create Order
+```json
+{
+  "name": "toast_create_order",
+  "arguments": {
+    "source": "ONLINE",
+    "selections": [
+      {
+        "itemGuid": "item-123",
+        "quantity": 2
+      }
+    ],
+    "customer": {
+      "firstName": "John",
+      "lastName": "Doe",
+      "phone": "+15551234567"
+    }
+  }
+}
+```
+
+### Mark Item 86'd
+```json
+{
+  "name": "toast_set_item_86",
+  "arguments": {
+    "itemGuid": "item-456",
+    "outOfStock": true
+  }
+}
+```
+
+### Get Sales Summary
+```json
+{
+  "name": "toast_get_sales_summary",
+  "arguments": {
+    "businessDate": 20240215
+  }
+}
+```
+
+## 🏗️ Architecture
+
+```
+toast/
+├── src/
+│   ├── clients/
+│   │   └── toast.ts          # Toast API client with auth
+│   ├── tools/
+│   │   ├── orders.ts         # 12 order tools
+│   │   ├── menus.ts          # 11 menu tools
+│   │   ├── employees.ts      # 9 employee tools
+│   │   ├── labor.ts          # 6 labor tools
+│   │   ├── restaurant.ts     # 9 restaurant tools
+│   │   ├── payments.ts       # 6 payment tools
+│   │   ├── inventory.ts      # 5 inventory tools
+│   │   ├── customers.ts      # 4 customer tools
+│   │   ├── reporting.ts      # 6 reporting tools
+│   │   └── cash.ts           # 8 cash tools
+│   ├── types/
+│   │   └── index.ts          # Comprehensive TypeScript types
+│   ├── ui/
+│   │   └── react-app/        # 18 React apps (client-side)
+│   ├── server.ts             # MCP server implementation
+│   └── main.ts               # Entry point (stdio + HTTP)
+├── package.json
+├── tsconfig.json
+└── README.md
+```
+
+## 📊 API Coverage
+
+This server implements comprehensive coverage of the Toast API:
+
+- ✅ Orders API v2 (full CRUD)
+- ✅ Menus API v2 (read + update)
+- ✅ Labor API v1 (employees, shifts, time entries)
+- ✅ Configuration API v1 (restaurant settings)
+- ✅ Stock API v1 (inventory management)
+- ✅ Cash Management API v1
+- ✅ Partners API v1 (restaurant access)
 
 ## 🔐 Authentication
 
-Toast uses **OAuth2 Client Credentials** flow:
+Uses OAuth 2.0 client credentials flow with automatic token refresh. Tokens are managed internally and refreshed 5 minutes before expiration.
 
-1. Go to [Toast Developer Portal](https://dev.toasttab.com/)
-2. Navigate to **Integrations** → **Create Integration**
-3. Select **Restaurant Management API** scope
-4. Copy your **Client ID** and **Client Secret**
-5. Find your **Restaurant GUID** in Toast Web (Settings → Restaurant Info)
+## 🎨 UI Theme
 
-**Required Scopes:**
-- Orders (read)
-- Menus (read/write)
-- Labor (read)
-
-**API Docs:** [https://doc.toasttab.com/doc/devguide/apiOverview.html](https://doc.toasttab.com/doc/devguide/apiOverview.html)
-
-The MCP server automatically handles token refresh (tokens expire after 1 hour).
-
-## 🎯 Example Prompts
-
-Once connected to Claude:
-
-**Sales & Orders:**
-- *"Pull all orders from yesterday between 6-9pm"*
-- *"Show me order abc123 with full details"*
-- *"What were our top-selling items last week?"*
-
-**Menu Management:**
-- *"List all menu items with prices"*
-- *"Mark the ribeye steak as out of stock"*
-- *"What items are currently 86'd?"*
-
-**Labor & Staffing:**
-- *"Show me all employees"*
-- *"Get labor data for last Monday-Friday"*
-- *"Calculate total hours worked by employee X"*
-
-**Check Operations:**
-- *"List all open checks right now"*
-- *"Void check #4521 with reason 'customer no-show'"*
-
-## 🛠️ Development
-
-### Prerequisites
-- Node.js 18+
-- npm or yarn
-- Toast account with API access (paid plan required)
-
-### Local Setup
-
-```bash
-git clone https://github.com/BusyBee3333/Toast-MCP-2026-Complete.git
-cd toast-mcp-2026-complete
-npm install
-cp .env.example .env
-# Edit .env with your credentials
-npm run build
-npm start
-```
-
-### Project Structure
-
-```
-toast-mcp-2026-complete/
-├── src/
-│   └── index.ts          # Main MCP server + Toast API client
-├── dist/                 # Compiled JavaScript (npm run build)
-├── package.json
-├── tsconfig.json
-└── .env.example
-```
-
-### Testing
-
-```bash
-npm test                  # Run all tests
-npm run test:watch        # Watch mode
-npm run test:coverage     # Coverage report
-```
-
-## 🐛 Troubleshooting
-
-### "Toast auth error: 401"
-- Verify your Client ID and Client Secret are correct
-- Check that your integration has the required scopes enabled
-- Ensure your Restaurant GUID matches your actual restaurant
-
-### "Toast API error: 403 Forbidden"
-- Your API credentials don't have the necessary permissions
-- Check your integration's scope settings in the Toast Developer Portal
-
-### "Tools not appearing in Claude"
-- Restart Claude Desktop after updating `claude_desktop_config.json`
-- Verify the path is **absolute** (no `~` or relative paths)
-- Check that `npm run build` completed successfully
-- Look for the `dist/index.js` file
-
-### "Toast-Restaurant-External-ID header required"
-- Make sure `TOAST_RESTAURANT_GUID` is set in your environment
-- This is different from your Client ID — find it in Toast Web settings
-
-## 📖 Resources
-
-- [Toast API Documentation](https://doc.toasttab.com/doc/devguide/apiOverview.html)
-- [Toast Developer Portal](https://dev.toasttab.com/)
-- [MCP Protocol Specification](https://modelcontextprotocol.io/)
-- [Claude Desktop Setup](https://claude.ai/desktop)
+All 18 apps use a consistent dark theme optimized for restaurant environments:
+- Background: `#0f0f0f`
+- Cards: `#1a1a1a`
+- Accent: `#00bfa5`
+- Text: `#e0e0e0`
 
 ## 🤝 Contributing
 
-Contributions welcome! To add new Toast API endpoints:
-
-1. Fork the repo
-2. Add tool definitions to `src/index.ts` (tools array)
-3. Implement handlers in `handleTool()` function
-4. Update README with new capabilities
-5. Submit a PR
+Contributions welcome! Please see the main [mcpengine repo](https://github.com/BusyBee3333/mcpengine) for contribution guidelines.
 
 ## 📄 License
 
-MIT License - see [LICENSE](LICENSE) for details
+MIT © BusyBee3333
 
-## 🙏 Credits
+## 🔗 Links
 
-Built by [MCPEngage](https://mcpengage.com) — AI infrastructure for business software.
+- [Toast API Documentation](https://doc.toasttab.com/)
+- [Model Context Protocol](https://modelcontextprotocol.io/)
+- [MCP Engine Repository](https://github.com/BusyBee3333/mcpengine)
 
-**Want more MCP servers?** Check out our [full catalog](https://mcpengage.com) covering 30+ business platforms (Gusto, Calendly, Stripe, QuickBooks, and more).
+## 🐛 Known Issues
+
+- HTTP mode tool execution not yet implemented (use stdio mode for MCP)
+- UI apps currently use client-side demo data (connect to Toast API for live data)
+
+## 🗓️ Roadmap
+
+- [ ] WebSocket support for real-time order updates
+- [ ] Full HTTP mode implementation
+- [ ] Additional reporting endpoints
+- [ ] Kitchen display system (KDS) integration
+- [ ] Multi-location support
 
 ---
 
-**Questions?** Open an issue or join our [Discord community](https://discord.gg/mcpengage).
+**Built with ❤️ for the restaurant industry**
